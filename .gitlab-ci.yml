@@ -79,6 +79,7 @@ build_android_apk:
   only:
     - main
     - tags
+    - krille/fcmsharedisolate
 
 build_android_appbundle:
   stage: coverage

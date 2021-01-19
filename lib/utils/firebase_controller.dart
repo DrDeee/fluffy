@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fcm_shared_isolate/fcm_shared_isolate.dart';
 import 'package:fluffychat/app_config.dart';
 import 'package:fluffychat/utils/platform_infos.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:famedlysdk/famedlysdk.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluffychat/components/matrix.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ import 'famedlysdk_store.dart';
 import 'matrix_locals.dart';
 
 abstract class FirebaseController {
-  static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  static final FcmSharedIsolate _firebaseMessaging = FcmSharedIsolate();
   static final FlutterLocalNotificationsPlugin
       _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   static BuildContext context;
@@ -29,7 +29,7 @@ abstract class FirebaseController {
       MatrixState matrix, String clientName) async {
     if (!PlatformInfos.isMobile) return;
     final client = matrix.client;
-    if (Platform.isIOS) iOS_Permission();
+    //if (Platform.isIOS) iOS_Permission();
 
     String token;
     try {
@@ -134,17 +134,14 @@ abstract class FirebaseController {
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: goToRoom);
 
-    _firebaseMessaging.configure(
+    _firebaseMessaging.setListeners(
       onMessage: _onMessage,
-      onBackgroundMessage: _onMessage,
-      onResume: goToRoom,
-      onLaunch: goToRoom,
     );
     Logs().i('[Push] Firebase initialized');
     return;
   }
 
-  static Future<dynamic> _onMessage(Map<String, dynamic> message) async {
+  static void _onMessage(Map<dynamic, dynamic> message) async {
     try {
       final data = message['data'] ?? message;
       final String roomId = data['room_id'];
@@ -362,12 +359,12 @@ abstract class FirebaseController {
     return file.path;
   }
 
-  static void iOS_Permission() {
+  /*static void iOS_Permission() {
     _firebaseMessaging.requestNotificationPermissions(
         IosNotificationSettings(sound: true, badge: true, alert: true));
     _firebaseMessaging.onIosSettingsRegistered
         .listen((IosNotificationSettings settings) {
       Logs().i('Settings registered: $settings');
     });
-  }
+  }*/
 }

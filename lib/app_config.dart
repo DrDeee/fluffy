@@ -28,7 +28,8 @@ abstract class AppConfig {
   static const String pushNotificationsChannelName = 'FluffyChat push channel';
   static const String pushNotificationsChannelDescription =
       'Push notifications for FluffyChat';
-  static const String pushNotificationsAppId = 'chat.fluffy.fluffychat';
+  static const String pushNotificationsAppId =
+      'chat.fluffy.fluffychat.experimental';
   static const String pushNotificationsGatewayUrl =
       'https://janian.de:7023/_matrix/push/v1/notify';
   static const String pushNotificationsPusherFormat = 'event_id_only';

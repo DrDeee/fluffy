@@ -6,7 +6,6 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:adaptive_page_layout/adaptive_page_layout.dart';
 import 'package:famedlysdk/encryption.dart';
 import 'package:famedlysdk/famedlysdk.dart';
-import 'package:fluffychat/utils/firebase_controller.dart';
 import 'package:fluffychat/utils/matrix_locals.dart';
 import 'package:fluffychat/utils/platform_infos.dart';
 import 'package:fluffychat/utils/sentry_controller.dart';
@@ -33,6 +32,10 @@ import 'dialogs/key_verification_dialog.dart';
 import '../utils/platform_infos.dart';
 import '../app_config.dart';
 import '../config/setting_keys.dart';
+import '../utils/famedlysdk_client.dart';
+import '../utils/plugins/background_push_plugin.dart';
+import '../utils/plugins/background_sync_plugin.dart';
+import '../utils/plugins/local_notification_plugin.dart';
 
 class Matrix extends StatefulWidget {
   static const String callNamespace = 'chat.fluffy.jitsi_call';
@@ -64,6 +67,24 @@ class MatrixState extends State<Matrix> {
   @override
   BuildContext get context => widget.context;
 
+  BackgroundPushPlugin _backgroundPushPlugin;
+  // ignore: unused_field
+  BackgroundSyncPlugin _backgroundSyncPlugin;
+  LocalNotificationPlugin _localNotificationsPlugin;
+
+  L10n _l10n;
+  L10n get l10n {
+    if (_l10n != null) {
+      return _l10n;
+    }
+    final l10n = L10n.of(context);
+    if (l10n != null) {
+      _l10n = l10n;
+      return _l10n;
+    }
+    return null;
+  }
+
   Map<String, dynamic> get shareContent => _shareContent;
   set shareContent(Map<String, dynamic> content) {
     _shareContent = content;
@@ -77,13 +98,6 @@ class MatrixState extends State<Matrix> {
 
   String activeRoomId;
   File wallpaper;
-  String clientName;
-
-  void clean() async {
-    if (!kIsWeb) return;
-
-    await store.deleteItem(clientName);
-  }
 
   void _initWithStore() async {
     try {
@@ -98,15 +112,15 @@ class MatrixState extends State<Matrix> {
         await client.requestThirdPartyIdentifiers().then((l) {
           if (l.isEmpty) {
             Flushbar(
-              title: L10n.of(context).warning,
-              message: L10n.of(context).noPasswordRecoveryDescription,
+              title: l10n.warning,
+              message: l10n.noPasswordRecoveryDescription,
               mainButton: RaisedButton(
                 elevation: 7,
                 color: Theme.of(context).scaffoldBackgroundColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Text(L10n.of(context).edit),
+                child: Text(l10n.edit),
                 onPressed: () =>
                     AdaptivePageLayout.of(context).pushNamed('/settings/3pid'),
               ),
@@ -139,7 +153,7 @@ class MatrixState extends State<Matrix> {
       case AuthenticationTypes.password:
         final input = await showTextInputDialog(
           context: context,
-          title: L10n.of(context).pleaseEnterYourPassword,
+          title: l10n.pleaseEnterYourPassword,
           textFields: [
             DialogTextField(
               minLines: 1,
@@ -165,10 +179,10 @@ class MatrixState extends State<Matrix> {
         );
         if (OkCancelResult.ok ==
             await showOkCancelAlertDialog(
-              message: L10n.of(context).pleaseFollowInstructionsOnWeb,
+              message: l10n.pleaseFollowInstructionsOnWeb,
               context: context,
-              okLabel: L10n.of(context).next,
-              cancelLabel: L10n.of(context).cancel,
+              okLabel: l10n.next,
+              cancelLabel: l10n.cancel,
             )) {
           return uiaRequest.completeStage(
             AuthenticationData(session: uiaRequest.session),
@@ -186,7 +200,7 @@ class MatrixState extends State<Matrix> {
     if (room.notificationCount == 0) return;
     final event = Event.fromJson(eventUpdate.content, room);
     final body = event.getLocalizedBody(
-      MatrixLocals(L10n.of(context)),
+      MatrixLocals(l10n),
       withSenderNamePrefix:
           !room.isDirectChat || room.lastEvent.senderId == client.userID,
     );
@@ -200,7 +214,7 @@ class MatrixState extends State<Matrix> {
         ..autoplay = true
         ..load();
       html.Notification(
-        room.getLocalizedDisplayname(MatrixLocals(L10n.of(context))),
+        room.getLocalizedDisplayname(MatrixLocals(l10n)),
         body: body,
         icon: icon,
       );
@@ -208,7 +222,7 @@ class MatrixState extends State<Matrix> {
       /*var sessionBus = DBusClient.session();
       var client = NotificationClient(sessionBus);
       _linuxNotificationIds[roomId] = await client.notify(
-        room.getLocalizedDisplayname(MatrixLocals(L10n.of(context))),
+        room.getLocalizedDisplayname(MatrixLocals(l10n)),
         body: body,
         replacesID: _linuxNotificationIds[roomId] ?? -1,
         appName: AppConfig.applicationName,
@@ -261,30 +275,9 @@ class MatrixState extends State<Matrix> {
         });
       });
     }
-    clientName =
-        '${AppConfig.applicationName} ${kIsWeb ? 'Web' : Platform.operatingSystem}';
-    final Set verificationMethods = <KeyVerificationMethod>{
-      KeyVerificationMethod.numbers
-    };
-    if (PlatformInfos.isMobile || (!kIsWeb && Platform.isLinux)) {
-      // emojis don't show in web somehow
-      verificationMethods.add(KeyVerificationMethod.emoji);
-    }
-    client = Client(
-      clientName,
-      enableE2eeRecovery: true,
-      verificationMethods: verificationMethods,
-      importantStateEvents: <String>{
-        'im.ponies.room_emotes', // we want emotes to work properly
-      },
-      databaseBuilder: getDatabase,
-      supportedLoginTypes: {
-        AuthenticationTypes.password,
-        if (PlatformInfos.isMobile) AuthenticationTypes.sso
-      },
-    );
-    LoadingDialog.defaultTitle = L10n.of(context).loadingPleaseWait;
-    LoadingDialog.defaultBackLabel = L10n.of(context).close;
+    client = getClient();
+    LoadingDialog.defaultTitle = l10n.loadingPleaseWait;
+    LoadingDialog.defaultBackLabel = l10n.close;
     LoadingDialog.defaultOnError = (Object e) => e.toLocalizedString(context);
 
     onRoomKeyRequestSub ??=
@@ -296,11 +289,11 @@ class MatrixState extends State<Matrix> {
       final sender = room.getUserByMXIDSync(request.sender);
       if (await showOkCancelAlertDialog(
             context: context,
-            title: L10n.of(context).requestToReadOlderMessages,
+            title: l10n.requestToReadOlderMessages,
             message:
-                '${sender.id}\n\n${L10n.of(context).device}:\n${request.requestingDevice.deviceId}\n\n${L10n.of(context).publicKey}:\n${request.requestingDevice.ed25519Key.beautified}',
-            okLabel: L10n.of(context).verify,
-            cancelLabel: L10n.of(context).deny,
+                '${sender.id}\n\n${l10n.device}:\n${request.requestingDevice.deviceId}\n\n${l10n.publicKey}:\n${request.requestingDevice.ed25519Key.beautified}',
+            okLabel: l10n.verify,
+            cancelLabel: l10n.deny,
           ) ==
           OkCancelResult.ok) {
         await request.forwardKey();
@@ -319,8 +312,8 @@ class MatrixState extends State<Matrix> {
       };
       if (await showOkCancelAlertDialog(
             context: context,
-            title: L10n.of(context).newVerificationRequest,
-            message: L10n.of(context).askVerificationRequest(request.userId),
+            title: l10n.newVerificationRequest,
+            message: l10n.askVerificationRequest(request.userId),
           ) ==
           OkCancelResult.ok) {
         request.onUpdate = null;
@@ -328,7 +321,7 @@ class MatrixState extends State<Matrix> {
         await request.acceptVerification();
         await KeyVerificationDialog(
           request: request,
-          l10n: L10n.of(context),
+          l10n: l10n,
         ).show(context);
       } else {
         request.onUpdate = null;
@@ -346,12 +339,6 @@ class MatrixState extends State<Matrix> {
       if (loginState != state) {
         loginState = state;
         widget.apl.currentState.pushNamedAndRemoveAllOthers('/');
-        if (loginState == LoginState.logged) {
-          FirebaseController.context = context;
-          FirebaseController.matrix = this;
-          FirebaseController.setupFirebase(clientName)
-              .catchError(SentryController.captureException);
-        }
       }
     });
     onUiaRequest ??= client.onUiaRequest.stream.listen(_onUiaRequest);
@@ -367,6 +354,16 @@ class MatrixState extends State<Matrix> {
             .listen(_showLocalNotification);
       });
     }
+
+    if (PlatformInfos.isMobile) {
+      _backgroundPushPlugin = BackgroundPushPlugin(this);
+      //
+      _backgroundPushPlugin?.setupPush();
+    }
+    if (PlatformInfos.isMobile || PlatformInfos.isWeb) {
+      _localNotificationsPlugin = LocalNotificationPlugin(this);
+    }
+    _backgroundSyncPlugin = BackgroundSyncPlugin(this);
   }
 
   void initSettings() {
@@ -402,6 +399,11 @@ class MatrixState extends State<Matrix> {
     onNotification?.cancel();
     onFocusSub?.cancel();
     onBlurSub?.cancel();
+    _localNotificationsPlugin.onFocusSub?.cancel();
+    _localNotificationsPlugin.onBlurSub?.cancel();
+    _localNotificationsPlugin?.matrix = null;
+    _backgroundPushPlugin?.onLogin?.cancel();
+
     super.dispose();
   }
 

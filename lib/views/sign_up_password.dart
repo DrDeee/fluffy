@@ -8,6 +8,7 @@ import 'package:fluffychat/components/matrix.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../utils/platform_infos.dart';
 
 class SignUpPassword extends StatefulWidget {
   final MatrixFile avatar;
@@ -43,7 +44,7 @@ class _SignUpPasswordState extends State<SignUpPassword> {
       await matrix.client.register(
         username: widget.username,
         password: passwordController.text,
-        initialDeviceDisplayName: matrix.clientName,
+        initialDeviceDisplayName: PlatformInfos.clientName,
         auth: auth,
       );
       await waitForLogin;

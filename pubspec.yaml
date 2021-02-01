@@ -16,9 +16,16 @@ dependencies:
       ref: main
 
   unifiedpush:
+    path: /home/sorunome/repos/flutter-connector
+#    git:
+#      url: https://github.com/UnifiedPush/flutter-connector.git
+#      ref: main
+
+  # Firebase Notifications
+  fcm_shared_isolate:
     git:
-      url: https://github.com/UnifiedPush/flutter-connector.git
-      ref: main
+      url: https://gitlab.com/famedly/libraries/fcm_shared_isolate.git
+      ref: log
 
   cupertino_icons: any
   localstorage: ^3.0.6+9

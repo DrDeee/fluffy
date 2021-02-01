@@ -11,20 +11,25 @@ import '../app_config.dart';
 
 abstract class PlatformInfos {
   static bool get isWeb => kIsWeb;
+  static bool get isLinux => Platform.isLinux;
+  static bool get isWindows => Platform.isWindows;
+  static bool get isMacOS => Platform.isMacOS;
+  static bool get isIOS => Platform.isIOS;
+  static bool get isAndroid => Platform.isAndroid;
 
-  static bool get isCupertinoStyle =>
-      !kIsWeb && (Platform.isIOS || Platform.isMacOS);
+  static bool get isCupertinoStyle => !kIsWeb && (isIOS || isMacOS);
 
-  static bool get isMobile => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+  static bool get isMobile => !kIsWeb && (isAndroid || isIOS);
 
   /// For desktops which don't support ChachedNetworkImage yet
-  static bool get isBetaDesktop =>
-      !kIsWeb && (Platform.isWindows || Platform.isLinux);
+  static bool get isBetaDesktop => !kIsWeb && (isWindows || isLinux);
 
-  static bool get isDesktop =>
-      !kIsWeb && (Platform.isLinux || Platform.isWindows || Platform.isMacOS);
+  static bool get isDesktop => !kIsWeb && (isLinux || isWindows || isMacOS);
 
   static bool get usesTouchscreen => !isMobile;
+
+  static String get clientName =>
+      '${AppConfig.applicationName} ${isWeb ? 'Web' : Platform.operatingSystem}';
 
   static Future<String> getVersion() async {
     var version = kIsWeb ? 'Web' : 'Unknown';

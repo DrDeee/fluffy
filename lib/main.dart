@@ -19,12 +19,26 @@ import 'package:universal_html/prefer_universal/html.dart' as html;
 import 'components/matrix.dart';
 import 'config/themes.dart';
 import 'app_config.dart';
+import 'utils/famedlysdk_client.dart';
+import 'utils/platform_infos.dart';
+import 'utils/plugins/background_push_plugin.dart';
+import 'utils/plugins/background_sync_plugin.dart';
+import 'utils/plugins/local_notification_plugin.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   FlutterError.onError = (FlutterErrorDetails details) =>
       Zone.current.handleUncaughtError(details.exception, details.stack);
+
+  final client = getClient();
+  BackgroundSyncPlugin.clientOnly(client);
+  if (PlatformInfos.isMobile) {
+    LocalNotificationPlugin.clientOnly(client);
+    BackgroundPushPlugin.clientOnly(client);
+  }
+
   runZonedGuarded(
     () => runApp(PlatformInfos.isMobile
         ? AppLock(

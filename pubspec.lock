@@ -227,6 +227,15 @@ packages:
       url: "https://gitlab.com/famedly/famedlysdk.git"
     source: git
     version: "0.0.1"
+  fcm_shared_isolate:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: log
+      resolved-ref: "646eab0821cd94aaa221c3e6c700c62918dc41f3"
+      url: "https://gitlab.com/famedly/libraries/fcm_shared_isolate.git"
+    source: git
+    version: "0.0.1"
   ffi:
     dependency: transitive
     description:
@@ -269,34 +278,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.1"
-  firebase:
-    dependency: transitive
-    description:
-      name: firebase
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "7.3.0"
   firebase_core:
     dependency: transitive
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0+1"
+    version: "0.5.3"
   firebase_core_platform_interface:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.0"
   firebase_core_web:
     dependency: transitive
     description:
       name: firebase_core_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.2.1+1"
   firebase_messaging:
     dependency: "direct main"
     description:
@@ -1160,11 +1162,9 @@ packages:
   unifiedpush:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: "9ad5360bb63021f366d35facf217f053d465b46c"
-      url: "https://github.com/UnifiedPush/flutter-connector.git"
-    source: git
+      path: "/home/sorunome/repos/flutter-connector"
+      relative: false
+    source: path
     version: "0.0.1"
   universal_html:
     dependency: "direct main"

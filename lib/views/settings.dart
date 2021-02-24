@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:adaptive_page_layout/adaptive_page_layout.dart';
-import 'package:fluffychat/components/default_bottom_navigation_bar.dart';
 import 'package:fluffychat/components/dialogs/bootstrap_dialog.dart';
 import 'package:fluffychat/components/sentry_switch_list_tile.dart';
 import 'package:fluffychat/components/settings_switch_list_tile.dart';
@@ -350,8 +349,8 @@ class _SettingsState extends State<Settings> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) =>
             <Widget>[
           SliverAppBar(
-            elevation: 1,
-            automaticallyImplyLeading: false,
+            elevation: Theme.of(context).appBarTheme.elevation,
+            leading: BackButton(),
             expandedHeight: 300.0,
             floating: true,
             pinned: true,
@@ -579,7 +578,6 @@ class _SettingsState extends State<Settings> {
           ],
         ),
       ),
-      bottomNavigationBar: DefaultBottomNavigationBar(currentIndex: 3),
     );
   }
 }

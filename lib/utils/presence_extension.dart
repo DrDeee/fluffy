@@ -4,6 +4,20 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import 'date_time_extension.dart';
 
+extension on PresenceType {
+  String getLocalized(BuildContext context) {
+    switch (this) {
+      case PresenceType.online:
+        return L10n.of(context).online;
+      case PresenceType.unavailable:
+        return L10n.of(context).unavailable;
+      case PresenceType.offline:
+      default:
+        return L10n.of(context).offline;
+    }
+  }
+}
+
 extension PresenceExtension on Presence {
   String getLocalizedLastActiveAgo(BuildContext context) {
     if (presence.lastActiveAgo != null && presence.lastActiveAgo != 0) {
@@ -21,7 +35,7 @@ extension PresenceExtension on Presence {
     if (presence.currentlyActive ?? false) {
       return L10n.of(context).currentlyActive;
     }
-    return getLocalizedLastActiveAgo(context);
+    return presence.presence.getLocalized(context);
   }
 
   Color get color {

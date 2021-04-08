@@ -45,7 +45,7 @@ build_windows:
     - cd ..; git clone https://github.com/flutter/flutter.git -b dev; $env:path += ";C:\GitLab-Runner\builds\famedly\flutter\bin"; cd fluffychat
     - flutter doctor
     - flutter config --enable-windows-desktop
-    - '$package_override = "`r`ndependency_overrides:`r`n  intl: 0.17.0-nullsafety.2"'
+    #- '$package_override = "`r`ndependency_overrides:`r`n  intl: 0.17.0-nullsafety.2"'
     - '[System.IO.File]::AppendAllText("$CI_PROJECT_DIR/pubspec.yaml", $package_override, [System.Text.Encoding]::UTF8)'
     - flutter clean
     - flutter pub get

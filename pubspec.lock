@@ -215,8 +215,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "ll/null-safety"
-      resolved-ref: "097a9e0ebb892c2c833b5df231ddedb2865955dd"
+      ref: main
+      resolved-ref: "545ce26e3946fc81c728e1435e93cdb9ed3a5e18"
       url: "https://gitlab.com/famedly/famedlysdk.git"
     source: git
     version: "0.0.1"
@@ -224,8 +224,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "13ace9a4b4553c3c528448391f44d786f5243c57"
-      resolved-ref: "13ace9a4b4553c3c528448391f44d786f5243c57"
+      ref: ios
+      resolved-ref: "86519130e5e122a20fdd31de34013d62a88f106d"
       url: "https://gitlab.com/famedly/libraries/fcm_shared_isolate.git"
     source: git
     version: "0.0.1"
@@ -265,12 +265,12 @@ packages:
     source: hosted
     version: "4.3.2"
   firebase_core:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.2"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -291,21 +291,7 @@ packages:
       name: firebase_messaging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.1.1"
-  firebase_messaging_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_messaging_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.1"
-  firebase_messaging_web:
-    dependency: transitive
-    description:
-      name: firebase_messaging_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
+    version: "7.0.3"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -633,7 +619,7 @@ packages:
       name: matrix_api_lite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.2"
+    version: "0.2.4"
   matrix_link_text:
     dependency: "direct main"
     description:

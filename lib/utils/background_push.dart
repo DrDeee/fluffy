@@ -130,11 +130,12 @@ class BackgroundPush {
     bool useDeviceSpecificAppId = false,
   }) async {
     if (PlatformInfos.isIOS) {
-      await FirebaseMessaging.instance.requestPermission(
+      FirebaseMessaging()
+          .requestNotificationPermissions(IosNotificationSettings(
         sound: true,
         alert: true,
         badge: true,
-      );
+      ));
     }
     final clientName = PlatformInfos.clientName;
     oldTokens ??= <String>{};

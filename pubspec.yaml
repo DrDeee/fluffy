@@ -13,7 +13,7 @@ dependencies:
   famedlysdk:
     git:
       url: https://gitlab.com/famedly/famedlysdk.git
-      ref: ll/null-safety
+      ref: main
 
   unifiedpush:
     git:
@@ -23,7 +23,7 @@ dependencies:
   fcm_shared_isolate:
     git:
       url: https://gitlab.com/famedly/libraries/fcm_shared_isolate.git
-      ref: 13ace9a4b4553c3c528448391f44d786f5243c57
+      ref: ios
   firebase_messaging: any
   cupertino_icons: any
   localstorage: ^4.0.0+1
@@ -83,6 +83,10 @@ dev_dependencies:
 
   pedantic: ^1.11.0
   dapackages: ^1.6.0
+
+dependency_overrides:
+  firebase_messaging: 7.0.3
+  firebase_core: 1.0.2
 
 flutter:
   generate: true

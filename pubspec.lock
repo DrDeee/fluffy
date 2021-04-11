@@ -215,8 +215,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "0bad62971bee06c7c4a90e1564246c6325ae7d8f"
-      resolved-ref: "0bad62971bee06c7c4a90e1564246c6325ae7d8f"
+      ref: "ll/null-safety"
+      resolved-ref: "097a9e0ebb892c2c833b5df231ddedb2865955dd"
       url: "https://gitlab.com/famedly/famedlysdk.git"
     source: git
     version: "0.0.1"
@@ -389,12 +389,10 @@ packages:
   flutter_matrix_html:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "71735d848c9720d986c84078a013253321399058"
-      url: "https://github.com/ChristianPauly/flutter_matrix_html.git"
-    source: git
-    version: "0.2.0"
+      name: flutter_matrix_html
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   flutter_olm:
     dependency: "direct main"
     description:
@@ -639,12 +637,10 @@ packages:
   matrix_link_text:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "6f60e56cf9234e0b720c281cf021e7e8377ab59b"
-      url: "https://github.com/ChristianPauly/matrix_link_text.git"
-    source: git
-    version: "0.3.2"
+      name: matrix_link_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0"
   meta:
     dependency: transitive
     description:
@@ -921,7 +917,7 @@ packages:
     source: hosted
     version: "2.0.1"
   shared_preferences:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
@@ -1125,11 +1121,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "8edc09a87d726d912926ac612e209573452c1273"
-      resolved-ref: "8edc09a87d726d912926ac612e209573452c1273"
-      url: "https://github.com/UnifiedPush/flutter-connector.git"
+      ref: HEAD
+      resolved-ref: e75ed43d46dc20bc8d3ac79c2546ddf2c3cc89e9
+      url: "https://github.com/ChristianPauly/flutter-connector.git"
     source: git
-    version: "0.0.1"
+    version: "1.0.1"
   universal_html:
     dependency: "direct main"
     description:

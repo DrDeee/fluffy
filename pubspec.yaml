@@ -13,12 +13,11 @@ dependencies:
   famedlysdk:
     git:
       url: https://gitlab.com/famedly/famedlysdk.git
-      ref: 0bad62971bee06c7c4a90e1564246c6325ae7d8f
+      ref: ll/null-safety
 
   unifiedpush:
     git:
-      url: https://github.com/UnifiedPush/flutter-connector.git
-      ref: 8edc09a87d726d912926ac612e209573452c1273
+      url: https://github.com/ChristianPauly/flutter-connector.git
 
   # Firebase Notifications
   fcm_shared_isolate:
@@ -37,7 +36,6 @@ dependencies:
   provider: ^5.0.0
   adaptive_theme: ^2.1.1
   # desktop_notifications: ^0.0.0-dev.4  // Currently blocked by: https://github.com/canonical/desktop_notifications.dart/issues/5
-  matrix_link_text: ^0.3.2
   path_provider: ^2.0.1
   android_path_provider: ^0.2.1
   permission_handler: ^6.1.1
@@ -50,9 +48,8 @@ dependencies:
   open_file: ^3.1.0
   mime_type: ^1.0.0
   adaptive_dialog: ^0.10.0+5
-  flutter_matrix_html:
-    git:
-      url: https://github.com/ChristianPauly/flutter_matrix_html.git
+  flutter_matrix_html: ^0.3.0
+  matrix_link_text: ^0.4.0
   moor: ^4.2.1
   sqlite3: ^1.0.0
   sqflite: ^2.0.0+3 # Still used to obtain the database location
@@ -86,15 +83,6 @@ dev_dependencies:
 
   pedantic: ^1.11.0
   dapackages: ^1.6.0
-
-# The flutter_maths version of flutter_matrix_html is weird and conflicts with a few of our packages.
-# So, we have to force-override the dependencies to work out.
-dependency_overrides:
-  flutter_svg: ^0.21.0+1
-  shared_preferences: ^2.0.1
-  matrix_link_text:
-    git:
-      url: https://github.com/ChristianPauly/matrix_link_text.git
 
 flutter:
   generate: true

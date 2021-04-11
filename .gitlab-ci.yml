@@ -172,7 +172,7 @@ snap:edge:
   stage: release
   image: "snapcore/snapcraft"
   before_script:
-    - apt update && apt install git curl unzip clang cmake build-essential ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev -y
+    - apt update && apt install git curl unzip clang cmake build-essential ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libjsoncpp-dev cmake-data libjsoncpp1 libsecret-1 librhash0 -y
     - git clone https://github.com/flutter/flutter.git
     - export PATH="$PATH:`pwd`/flutter/bin"
   variables:
@@ -186,7 +186,6 @@ snap:edge:
     paths:
       - "./*.snap"
     when: on_success
-  allow_failure: true
 
 #snap:publish:
 #  stage: release

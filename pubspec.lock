@@ -379,19 +379,19 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_math:
+  flutter_math_fork:
     dependency: transitive
     description:
-      name: flutter_math
+      name: flutter_math_fork
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0-nullsafety.1"
+    version: "0.3.0+2"
   flutter_matrix_html:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2801b47a5ca640d114b134024afe657166cccfe8"
+      resolved-ref: "71735d848c9720d986c84078a013253321399058"
       url: "https://github.com/ChristianPauly/flutter_matrix_html.git"
     source: git
     version: "0.2.0"
@@ -912,7 +912,7 @@ packages:
       name: sentry
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "5.0.0"
   share:
     dependency: "direct main"
     description:
@@ -1193,13 +1193,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  usage:
-    dependency: transitive
-    description:
-      name: usage
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.4.2"
   uuid:
     dependency: transitive
     description:

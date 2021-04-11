@@ -413,8 +413,8 @@ class _ChatDetailsState extends State<ChatDetails> {
                                   ),
                                 if (room.canChangeHistoryVisibility)
                                   PopupMenuItem<HistoryVisibility>(
-                                    value: HistoryVisibility.world_readable,
-                                    child: Text(HistoryVisibility.world_readable
+                                    value: HistoryVisibility.worldReadable,
+                                    child: Text(HistoryVisibility.worldReadable
                                         .getLocalizedString(
                                             MatrixLocals(L10n.of(context)))),
                                   ),
@@ -446,9 +446,9 @@ class _ChatDetailsState extends State<ChatDetails> {
                                     <PopupMenuEntry<GuestAccess>>[
                                   if (room.canChangeGuestAccess)
                                     PopupMenuItem<GuestAccess>(
-                                      value: GuestAccess.can_join,
+                                      value: GuestAccess.canJoin,
                                       child: Text(
-                                        GuestAccess.can_join.getLocalizedString(
+                                        GuestAccess.canJoin.getLocalizedString(
                                             MatrixLocals(L10n.of(context))),
                                       ),
                                     ),

@@ -130,12 +130,11 @@ class BackgroundPush {
     bool useDeviceSpecificAppId = false,
   }) async {
     if (PlatformInfos.isIOS) {
-      FirebaseMessaging()
-          .requestNotificationPermissions(IosNotificationSettings(
+      await FirebaseMessaging.instance.requestPermission(
         sound: true,
         alert: true,
         badge: true,
-      ));
+      );
     }
     final clientName = PlatformInfos.clientName;
     oldTokens ??= <String>{};
@@ -355,7 +354,8 @@ class BackgroundPush {
           .toString()
           .split('?')
           .first;
-      final res = json.decode(utf8.decode((await http.get(url)).bodyBytes));
+      final res =
+          json.decode(utf8.decode((await http.get(Uri.parse(url))).bodyBytes));
       if (res['gateway'] == 'matrix') {
         endpoint = url;
       }
@@ -699,7 +699,7 @@ class BackgroundPush {
       final url = thumbnail
           ? content.getThumbnail(client, width: width, height: height)
           : content.getDownloadLink(client);
-      var request = await HttpClient().getUrl(Uri.parse(url));
+      var request = await HttpClient().getUrl(url);
       var response = await request.close();
       if (response.statusCode >= 300) {
         // we are not in the 2xx range

@@ -46,7 +46,7 @@ dependencies:
   intl: any
   localstorage: ^4.0.0+1
   mime_type: ^1.0.0
-  moor: ^4.3.0
+  moor: 4.2.1
   native_imaging:
     git:
       url: https://gitlab.com/famedly/libraries/native_imaging.git
